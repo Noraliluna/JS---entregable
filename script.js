@@ -48,10 +48,41 @@ productos.forEach(producto => {
     `
 })
 
+/*FORMULARIO*/
+
+class User {
+    constructor(username, email, number, password) {
+        this.username = username
+        this.email = email
+        this.number = number
+        this.password = password
+    }
+}
+
+const users = []
+
+const formUser = document.getElementById("formUser");
+
+formUser.addEventListener('submit', (event) => {
+    event.preventDefault()
+    let username = document.getElementById('username').value
+    let email = document.getElementById('email').value
+    let number = document.getElementById("number").value
+    let password = document.getElementById('password').value
+    const user = new User(username, email, number, password)
+    users.push(user)
+    console.log(users)
+    formUser.reset()
+})
+
+const inputColor = document.getElementById("inputColor")
 
 
 
-
+inputColor.addEventListener('input', () => {
+    let color = inputColor.value
+    document.getElementById("container").style.backgroundColor = color
+})
 
 /*ARMANDO MI CARRITO*/
 /*let talle = prompt("Ingrese su talle").toLocaleLowerCase;
