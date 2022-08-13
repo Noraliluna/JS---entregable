@@ -1,24 +1,61 @@
+
+
+const botonDark = document.getElementById('botonDarkMode')
+const botonLight = document.getElementById('botonLightMode')
+
+let darkMode
+
+if(localStorage.getItem('darkMode')) { //Si existe el local storage
+    darkMode = localStorage.getItem('darkMode') //Consulto el local storage
+} else {
+    localStorage.setItem('darkMode', "light") //Crearlo
+}
+
+if(darkMode == "dark") {
+    document.body.classList.add("darkMode")
+}
+
+botonDark.addEventListener('click', () => {
+    //document.body.style.backgroundColor = "#000"
+    //document.body.style.color = "#fff"
+    document.body.classList.add("darkMode")
+    localStorage.setItem('darkMode', "dark")
+})
+
+botonLight.addEventListener('click', () => {
+    //document.body.style.backgroundColor = "#fff"
+    //document.body.style.color = "#000"
+    document.body.classList.remove("darkMode")
+    localStorage.setItem('darkMode', "light")
+})
+
+
+
+
+
+
 /*LISTADO DE PRODUCTOS */
 class Mercaderia {
-    constructor(nombre, talle, color, precio, id) {
+    constructor(nombre, talle, color, precio, id, img) {
         this.nombre = nombre;
         this.talle = talle;
         this.color = color;
         this.precio = precio;
         this.id = id;
+        this.img = img;
     }
 }
 
-const producto001 = new Mercaderia("Tapado", "M", "Negro", 24000, 1);
-const producto002 = new Mercaderia("Remera", "S", "Bordo", 700, 2);
-const producto003 = new Mercaderia("Campera Polar", "M", "Mostaza", 10000, 3);
-const producto004 = new Mercaderia("Pantalon", "M", "Gris", 3000, 4);
-const producto005 = new Mercaderia("Camisa", "M", "Amarilla", 1000, 5);
-const producto006 = new Mercaderia("Blusa Floreada", "L", "Gris", 4000, 6);
-const producto007 = new Mercaderia("Tapado Paris", "M", "Gris y Negro", 20000, 7);
-const producto008 = new Mercaderia("Tapado", "M", "Gris", 15000, 8);
-const producto009 = new Mercaderia("Pantalon", "M", "Azul", 4000, 9);
-const producto010 = new Mercaderia("Remera", "M", "Blanca", 1000, 10);
+const producto001 = new Mercaderia("Pollera Cuadrille", "M", "Negro", 24000, 1, "https://i.pinimg.com/564x/c4/33/0c/c4330caf67c714d6d52c83302ff4f7c2.jpg");
+const producto002 = new Mercaderia("Campera Adidas", "S", "Bordo", 7000, 2, "https://assets.adidas.com/images/h_840,f_auto,q_auto,fl_lossy,c_fill,g_auto/fe5310d80d6447faa4e0a92e00d74387_9366/Polera_con_Capucha_Essentials_3_Tiras_Negro_DP2419_01_laydown.jpg");
+const producto003 = new Mercaderia("Remera Adidas Clasic", "M", "Rosa bebe", 3000, 3, "https://assets.adidas.com/images/h_840,f_auto,q_auto,fl_lossy,c_fill,g_auto/8c304ae0460e4b189f76ad9e011c149a_9366/Polo_de_algodon_Essentials_Print_Logo_Rosado_HA1224_21_model.jpg");
+const producto004 = new Mercaderia("Vestido Jean", "M", "Negro", 3000, 4, "https://i.pinimg.com/564x/5d/72/e6/5d72e6ebb85bfdd074af576c33228a57.jpg");
+const producto005 = new Mercaderia("Blusa", "S", "Celeste", 2000, 5, "https://i.pinimg.com/564x/4c/6a/79/4c6a7947261cf9211920fcf4315a05bd.jpg");
+const producto006 = new Mercaderia("Top Deportivc", "L", "Negro", 4000, 6, "https://i.pinimg.com/564x/43/c7/68/43c768c5c6fc4a6d618311e5933aa41d.jpg");
+const producto007 = new Mercaderia("Top tiras", "M", "Blanco", 20000, 7, "https://i.pinimg.com/564x/8f/3a/85/8f3a85df34034425a513b29eca34d1ed.jpg");
+const producto008 = new Mercaderia("Shorts Deportivo", "M", "Rosa bebe", 15000, 8, "https://i.pinimg.com/564x/4b/b2/fd/4bb2fd77dfab201b8254305d63bfbc26.jpg");
+const producto009 = new Mercaderia("Top cross", "M", "Blanco", 4000, 9, "https://i.pinimg.com/564x/a6/03/1d/a6031dcda91ced4a8856cd8cd2c3540b.jpg");
+const producto010 = new Mercaderia("Top", "S", "Rosa Bebe", 3000, 10, "https://i.pinimg.com/564x/e4/6b/ad/e46bad6e0b93a34a8451d5e22be71741.jpg");
 
 const productos = [producto001, producto002, producto003, producto004, producto005, producto006, producto007, producto008, producto009, producto010];
 
@@ -34,19 +71,21 @@ const productosF = document.getElementById("productosF");
 productos.forEach(producto => {
     productosF.innerHTML += `
     <div class="card" id="producto${producto.id}" style="width: 18rem;">
-        <img src="https://dummyimage.com/250x300/000/fff" class="card-img-top" id="img" alt="...">
+        <img src=${producto.img} class="card-img-top" id="img" alt="...">
         <div class="card-body">
-            <h5 class="card-title">Nombre: ${producto.nombre}</h5>
+            <h5 class="card-title">${producto.nombre}</h5>
         </div>
         <ul class="list-group list-group-flush">
             <li class="list-group-item">Talle: ${producto.talle}</li>
             <li class="list-group-item">Color: ${producto.color}</li>
             <li class="list-group-item">Precio: $${producto.precio}</li>
         </ul>
+        <button type="submit" id="botonC" class="btn btn-primary mb-3">Agregar al carrito</button>
     </div>
     
     `
 })
+
 
 /*FORMULARIO*/
 
@@ -83,6 +122,11 @@ inputColor.addEventListener('input', () => {
     let color = inputColor.value
     document.getElementById("container").style.backgroundColor = color
 })
+
+
+localStorage.setItem('usuario', JSON.stringify([User]))
+
+const array= JSON.parse(localStorage.getItem('usuario'))
 
 /*ARMANDO MI CARRITO*/
 /*let talle = prompt("Ingrese su talle").toLocaleLowerCase;
